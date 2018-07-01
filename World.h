@@ -11,7 +11,7 @@ class Creature;
 struct Environment {
 	float energy;
 	float re_energy;
-	void Draw(int x,int y,int size)const;
+	void Draw(int x,int y,int size, cv::Mat &img)const;
 };
 
 class World {
@@ -36,8 +36,8 @@ public:
 
 		//ê∂ï®ÇÃê∂ê¨
 		for (int i = 0; i < MAX_LABEL_NUM; i++) {
-			AddCreature(i, GetRand(worldX), GetRand(worldY), GetRand(3) + 1);
-			AddCreature(i, GetRand(worldX), GetRand(worldY), GetRand(3) + 1);
+			AddCreature(i, (float)GetRand(worldX), (float)GetRand(worldY), (float)GetRand(3) + 1);
+			AddCreature(i, (float)GetRand(worldX), (float)GetRand(worldY), (float)GetRand(3) + 1);
 		}
 	}
 

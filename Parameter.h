@@ -1,6 +1,5 @@
 #pragma once
 
-#include <DxLib.h>
 #include "MyOpenCV.h"
 
 //世界のルール
@@ -9,4 +8,5 @@ extern const float MAX_RE_ENERGY;
 extern const int MAX_LABEL_NUM;
 
 //クリーチャーの色
-extern const int colorHandle[10];
+extern const cv::Scalar colorHandle[10];
+int GetRand(int num);

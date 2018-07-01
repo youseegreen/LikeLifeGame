@@ -36,6 +36,6 @@ public:
 	virtual ~Creature() { }
 	virtual void Update(); 
 	virtual void Reaction();
-	virtual void Draw(int cellSize);
+	virtual void Draw(int cellSize, cv::Mat &img);
 	virtual bool IsLife() { return (life > 0) ? true : false; }
 };

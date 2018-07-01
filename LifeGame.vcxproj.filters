@@ -21,9 +21,6 @@
     <ClInclude Include="Creature.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="MyOpenCV.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

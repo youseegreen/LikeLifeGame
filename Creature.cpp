@@ -9,36 +9,35 @@ void Creature::Update() {
 	//“®‚¯‚é’†‚Åˆê”Ô‚¢‚¢‚Ì‚ð‘I‚Ô
 	float value = -1;
 	int X = 0, Y = 0;
-	for (int i = -moveRate; i <= moveRate; i++) {
-		for (int j = -moveRate; j <= moveRate; j++) {
+	for (int i = (int)-moveRate; i <= (int)moveRate; i++) {
+		for (int j = (int)-moveRate; j <= (int)moveRate; j++) {
 			float v = EvaluationFunction(world->CheckEnvironment(x + i, y + j));
 			if (value < v) {
-				X = x + i;
-				Y = y + j;
+				X = (int)(x + i);
+				Y = (int)y + j;
 				value = v;
 			}
 		}
 	}
 
 	//“®‚­@«—ˆ“I‚É‚ÍUŒ‚‚Ì•ûŒü‚Æ‚©‚à‚·‚é
-	x = X;
-	y = Y;
+	x = (float)X;
+	y = (float)Y;
 }
 
 
 void Creature::Reaction() {
 	Environment &tmp = world->GetEnvironment(x, y);		//tmp‚Ífiled[x][y]‚ð‘€ì‚Å‚«‚é‚±‚Æ‚É’ˆÓ
 	energy += tmp.energy;
-	life += tmp.energy/5.0;
+	life += tmp.energy/(float)5.0;
 	tmp.energy = 0;
 	if (energy > bornRate) {
-		world->AddCreature(label, x, y, GetRand(3)+1);
+		world->AddCreature(label, x, y, (float)GetRand(3)+1);
 		energy -= bornRate;
 	}
 	life -= consumption;
 }
 
-void Creature::Draw(int cellSize = 1){
-	DrawCircle(x*cellSize + 0.5 * cellSize, y*cellSize + 0.5 * cellSize, 
-				size, colorHandle[label]);
+void Creature::Draw(int cellSize, cv::Mat &img){
+	cv::circle(img, cv::Point((int)((x + 0.5)*cellSize), (int)((y + 0.5)*cellSize)), (int)size, colorHandle[label], -1);
 }
