@@ -5,45 +5,53 @@ class Creature;
 
 #include <list>
 #include <random>
+#include "Parameter.h"
 #include "Creature.h"
-#include <DxLib.h>
 
 struct Environment {
 	float energy;
 	float re_energy;
+	void Draw(int x,int y,int size)const;
 };
 
 class World {
-	const int sizeX;
-	const int sizeY;
+	const int worldX;
+	const int worldY;
+	const int size;	//cellのsize
+
 	list<Creature *> creatureList;
 
-	//分けたほうが良い
-	
+	void DrawScreen()const;
+
+	//field系
 	Environment **field;
 	void UpdateField();
-	void DrawScreen(); 
 
 public:
-	World(int sX, int sY) :sizeX(sX),sizeY(sY){
-		field = new (Environment *[sX]);
-		for (int i = 0; i < sX; i++) field[i] = new(Environment[sY]);
-		
-		for (int y = 0; y < sizeY; y++) {
-			for (int x = 0; x < sizeX; x++) {
-				field[x][y].energy = GetRand(100);
-				field[x][y].re_energy = GetRand(10);
-			}
-		}
+	World(int sX, int sY, int tsize) :worldX(sX/tsize),worldY(sY/tsize),size(tsize){
+		//フィールドの生成
+		field = new (Environment *[worldX]);
+		for (int i = 0; i < worldX; i++) field[i] = new(Environment[worldY]);
+		LoadFieldMap("map\\map.bmp");
 
-		for (int i = 0; i < 10; i++) {
-			AddCreature(GetRand(3), GetRand(sX), GetRand(sY));
+		//生物の生成
+		for (int i = 0; i < MAX_LABEL_NUM; i++) {
+			AddCreature(i, GetRand(worldX), GetRand(worldY), GetRand(3) + 1);
+			AddCreature(i, GetRand(worldX), GetRand(worldY), GetRand(3) + 1);
 		}
 	}
 
-	void MainRoop();
-	void Update();
-	void AddCreature(int lab, float x = 0, float y = 0, float vx = 0, float vy = 0, float life = 10.0);
-	Environment &GetEnvironment(float x, float y);
-	Environment CheckEnvironment(float x, float y);
+	//デストラクタ
+	~World() {
+		for (int i = 0; i < worldX; i++)delete[] field[i];
+		delete[] field;
+		//生物全滅で終了で、生物の解放は生物側がやるからdeleteいらん
+	}
+	
+	void LoadFieldMap(const char *fName);	//マップからフィールド生成
+	void MainRoop();	//ゲーム本体
+	void Update();		//1時刻進める
+	void AddCreature(int lab, float x = 0, float y = 0, float move = 1, float life = 10.0);
+	Environment &GetEnvironment(float x, float y)const;
+	Environment CheckEnvironment(float x, float y)const;
 };

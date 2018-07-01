@@ -1,5 +1,6 @@
 #include "Creature.h"
 
+//s“®‚Ì•ûô@‰ü—Ç‚µ‚Ä‚¢‚­
 float Creature::EvaluationFunction(Environment env) {
 	return env.energy;
 }
@@ -28,11 +29,16 @@ void Creature::Update() {
 void Creature::Reaction() {
 	Environment &tmp = world->GetEnvironment(x, y);		//tmp‚Ífiled[x][y]‚ð‘€ì‚Å‚«‚é‚±‚Æ‚É’ˆÓ
 	energy += tmp.energy;
-	life += tmp.energy;
+	life += tmp.energy/5.0;
 	tmp.energy = 0;
 	if (energy > bornRate) {
-		world->AddCreature(label, x, y);
+		world->AddCreature(label, x, y, GetRand(3)+1);
 		energy -= bornRate;
 	}
 	life -= consumption;
+}
+
+void Creature::Draw(int cellSize = 1){
+	DrawCircle(x*cellSize + 0.5 * cellSize, y*cellSize + 0.5 * cellSize, 
+				size, colorHandle[label]);
 }
