@@ -45,8 +45,6 @@ void World::Update() {
 	DrawScreen();
 }
 
-
-
 void World::MainRoop() {
 	while (creatureList.size() > 0) {
 		Update();
@@ -59,9 +57,6 @@ void World::AddCreature(int lab, float x, float y, float move, float life) {
 	y += GetRand(20) - 10;
 	creatureList.push_front(new Creature(this, lab, life, x, y, move));
 }
-
-
-
 
 //ÂF­‚È‚¢@—ÎF‘½‚¢
 void Environment::Draw(int x, int y, int size, cv::Mat &img) const {
